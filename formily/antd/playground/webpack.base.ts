@@ -3,6 +3,10 @@ import fs from 'fs-extra'
 import { GlobSync } from 'glob'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import autoprefixer from 'autoprefixer'
+import {
+  EntryObject,
+  WebpackOptions,
+} from 'webpack/declarations/WebpackOptions'
 //import { getThemeVariables } from 'antd/dist/theme'
 
 const getWorkspaceAlias = () => {
@@ -24,7 +28,7 @@ const getWorkspaceAlias = () => {
   return results
 }
 
-export default {
+const config: Omit<WebpackOptions, 'entry'> & { entry: EntryObject } = {
   mode: 'development',
   devtool: 'inline-source-map', // 嵌入到源文件中
   stats: {
@@ -58,6 +62,9 @@ export default {
             loader: require.resolve('ts-loader'),
             options: {
               transpileOnly: true,
+              compilerOptions: {
+                sourceMap: true,
+              },
             },
           },
         ],
@@ -102,3 +109,5 @@ export default {
     ],
   },
 }
+
+export default config

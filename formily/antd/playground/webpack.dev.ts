@@ -5,6 +5,7 @@ import MonacoPlugin from 'monaco-editor-webpack-plugin'
 //import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import webpack from 'webpack'
 import path from 'path'
+import { NonEmptyArrayOfUniqueStringValues } from 'webpack/declarations/WebpackOptions'
 
 const PORT = 3000
 
@@ -21,7 +22,7 @@ const createPages = (pages) => {
 
 for (const key in baseConfig.entry) {
   if (Array.isArray(baseConfig.entry[key])) {
-    baseConfig.entry[key].push(
+    ;(baseConfig.entry[key] as NonEmptyArrayOfUniqueStringValues).push(
       require.resolve('webpack/hot/dev-server'),
       `${require.resolve('webpack-dev-server/client')}?http://localhost:${PORT}`
     )
